@@ -1,0 +1,24 @@
+{
+    "name": "germn",
+    "version": "0.0.1",
+    "description": "Playground for GraphQL, Express, React, Mongo and Node. It is basically to learn and experiment with this stack.",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mujib2953/germN.git"
+    },
+    "keywords": [
+        "React",
+        "Node",
+        "TypeScript"
+    ],
+    "author": "Mujib Ansari",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mujib2953/germN/issues"
+    },
+    "homepage": "https://github.com/mujib2953/germN#readme"
+}
