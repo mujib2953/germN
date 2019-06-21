@@ -1,5 +1,9 @@
 # files/folder for intelliJ
 .idea
 
+# Dist or Buid folder and files
+dist
+
 # All unnecessary folders
 node_modules
+waste.txt
