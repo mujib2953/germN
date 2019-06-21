@@ -1,2 +1,5 @@
 # files/folder for intelliJ
 .idea
+
+# All unnecessary folders
+node_modules
