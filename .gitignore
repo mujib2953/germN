@@ -6,4 +6,5 @@ dist
 
 # All unnecessary folders
 node_modules
+.env
 waste.txt
