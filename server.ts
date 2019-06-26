@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import passport from "passport";
 
 import configurePassport from "./config/passport";
-import UserRoute from "./routes/api/User";
+import * as UserRoute from "./routes/api/User";
 
 // --- initialize configuration environment
 dotenv.config();
@@ -31,7 +31,7 @@ configurePassport(passport);
 
 // --- Routes
 app.use(
-    "/api/users", UserRoute
+    "/api/users", UserRoute.default
 );
 
 // tslint:disable-next-line:no-console
