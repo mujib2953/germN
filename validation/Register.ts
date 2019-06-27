@@ -1,6 +1,6 @@
 import Validator from "validator";
 import messages from "../data/messages";
-import { IExtendedUser, IUser, IValidationResponse } from "../types";
+import { IExtendedUser, IValidationResponse } from "../types";
 import isEmpty from "./IsEmpty";
 
 const validateRegisterInput = (data: IExtendedUser): IValidationResponse => {

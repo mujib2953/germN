@@ -1,3 +1,4 @@
+import { Document } from "mongoose";
 
 export interface IUser {
     name?: string;
@@ -6,6 +7,8 @@ export interface IUser {
 
     avatar?: string;
 }
+
+export interface IUserMongooseData extends IUser, Document {}
 
 export interface IExtendedUser extends IUser {
     password2?: string;
