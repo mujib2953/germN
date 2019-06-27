@@ -23,8 +23,5 @@ const UserSchema = new Schema({
     }
 });
 
-// tslint:disable-next-line:no-console
-console.log("-_-");
-
 const User = model("user", UserSchema);
 export default User;
