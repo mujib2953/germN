@@ -7,6 +7,7 @@ import { sign } from "jsonwebtoken";
 import messages from "../../data/messages";
 import User from "../../models/User";
 import { IUserMongooseData } from "../../types";
+import { logg, loggError } from "../../util/GlobalError";
 import validateLoginInput from "../../validation/Login";
 import validateRegisterInput from "../../validation/Register";
 
@@ -83,29 +84,23 @@ router.post("/register", (req, res) => {
                                     .save()
                                     .then((savedUser) => {
                                         res.json(savedUser);
-
-                                        // tslint:disable-next-line:no-console
-                                        console.log(`New User created with email: ${req.body.email}`);
+                                        logg(`New User created with email: ${req.body.email}`);
                                     })
                                     .catch((error) => {
-                                        // tslint:disable-next-line:no-console
-                                        console.error(error);
+                                        loggError(error);
                                     });
                             })
                             .catch((error) => {
-                                // tslint:disable-next-line:no-console
-                                console.error(error);
+                                loggError(error);
                             });
                     })
                     .catch((error) => {
-                        // tslint:disable-next-line:no-console
-                        console.error(error);
+                        loggError(error);
                     });
             }
         })
         .catch((error) => {
-            // tslint:disable-next-line:no-console
-            console.error(error);
+            loggError(error);
         });
 });
 
@@ -148,8 +143,7 @@ router.post("/login", (req, res) => {
 
                         sign(jwtPayload, SECRET_PASSPORT_KEY, {expiresIn: 3600}, (error, token: string) => {
                             if (error !== undefined && error !== null) {
-                                // tslint:disable-next-line:no-console
-                                console.error(error);
+                                loggError(error);
                             } else {
                                 res.json({
                                     success: true,
@@ -164,13 +158,11 @@ router.post("/login", (req, res) => {
                     }
                 })
                 .catch((error) => {
-                    // tslint:disable-next-line:no-console
-                    console.error(error);
+                    loggError(error);
                 });
         })
         .catch((error) => {
-            // tslint:disable-next-line:no-console
-            console.error(error);
+            loggError(error);
         });
 });
 export default router;
