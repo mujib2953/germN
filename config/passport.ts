@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import {ExtractJwt, Strategy} from "passport-jwt";
+import { ExtractJwt, Strategy } from "passport-jwt";
+
+import { logg, loggError } from "../util/GlobalError";
 
 // --- initialize configuration environment
 dotenv.config();
@@ -11,15 +13,11 @@ const OPTION = {
     secretOrKey: SECRET_PASSPORT_KEY
 };
 
-// tslint:disable-next-line:no-console
-console.log(`We are using secret Key: ${SECRET_PASSPORT_KEY}`);
+logg(`We are using secret Key: ${SECRET_PASSPORT_KEY}`);
 
 const configurePassport = (passport: any) => {
     passport.use(
         new Strategy(OPTION, (jwtPayload, done) => {
-            // tslint:disable-next-line:no-console
-            console.log(jwtPayload);
-
             const UserModel = mongoose.model("user");
 
             UserModel.findById(jwtPayload.id)
@@ -31,8 +29,7 @@ const configurePassport = (passport: any) => {
                     return done(null, false);
                 })
                 .catch((error) => {
-                    // tslint:disable-next-line:no-console
-                    console.log(error);
+                    loggError(error);
                 });
         })
     );

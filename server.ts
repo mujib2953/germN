@@ -6,6 +6,7 @@ import passport from "passport";
 
 import configurePassport from "./config/passport";
 import * as UserRoute from "./routes/api/User";
+import { logg, loggError } from "./util/GlobalError";
 
 // --- initialize configuration environment
 dotenv.config();
@@ -34,19 +35,16 @@ app.use(
     "/api/users", UserRoute.default
 );
 
-// tslint:disable-next-line:no-console
-console.log(`Connecting to mongo db : ${DB_LINK}`);
+logg(`Connecting to mongo db : ${DB_LINK}`);
 
 mongoose.connect(DB_LINK, {
     useNewUrlParser: true
 })
     .then(() => {
-        // tslint:disable-next-line:no-console
-        console.log(`Connected to mongo database.`);
+        logg(`Connected to mongo database.`);
     })
     .catch((error) => {
-        // tslint:disable-next-line:no-console
-        console.log(error);
+        loggError(error);
     });
 
 app.get("/", (req, res) => {
@@ -54,6 +52,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    // tslint:disable-next-line:no-console
-    console.log(`Local server is running on port : ${PORT}`);
+    logg(`Local server is running on port : ${PORT}`);
 });
