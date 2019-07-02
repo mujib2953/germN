@@ -8,6 +8,7 @@ import messages from "../../data/messages";
 import User from "../../models/User";
 import { IUserMongooseData } from "../../types";
 import { logg, loggError } from "../../util/GlobalError";
+import HttpCode from "../../util/HttpCodes";
 import validateLoginInput from "../../validation/Login";
 import validateRegisterInput from "../../validation/Register";
 
@@ -25,7 +26,7 @@ const SECRET_PASSPORT_KEY = process.env.PASSPORT_KEY || undefined;
  * Params  : N/A
 ************************************************************* */
 router.get("/test", (req, res) =>
-    res.json({
+    res.status(HttpCode.SUCCESSFUL.OK).json({
         msg: "Users works"
     })
 );
@@ -55,7 +56,7 @@ router.post("/register", (req, res) => {
                 const errors: { [key: string]: string } = {};
                 errors.email = messages.EN.EMAIL_EXIST_ERROR;
 
-                return res.status(400).json(errors);
+                return res.status(HttpCode.CLIENT_ERROR.BAD_REQUEST).json(errors);
 
             } else {
                 // --- New user has arrived o_0 Yippee..
@@ -83,7 +84,7 @@ router.post("/register", (req, res) => {
                                 newUser
                                     .save()
                                     .then((savedUser) => {
-                                        res.json(savedUser);
+                                        res.status(HttpCode.SUCCESSFUL.CREATED).json(savedUser);
                                         logg(`New User created with email: ${req.body.email}`);
                                     })
                                     .catch((error) => {
@@ -118,7 +119,7 @@ router.post("/login", (req, res) => {
 
     const errors: { [key: string]: string; } = {};
     if (!validateResponse.isValid) {
-        res.status(400).json(validateResponse.errors);
+        res.status(HttpCode.CLIENT_ERROR.BAD_REQUEST).json(validateResponse.errors);
     }
 
     User.findOne({
@@ -128,7 +129,7 @@ router.post("/login", (req, res) => {
             if (searchedUser === null || searchedUser === undefined) {
                 // --- Not found
                 errors.email = messages.EN.NO_SUCH_USER;
-                return res.status(400).json(errors);
+                return res.status(HttpCode.CLIENT_ERROR.BAD_REQUEST).json(errors);
             }
 
             compare(password, searchedUser.password)
@@ -145,7 +146,7 @@ router.post("/login", (req, res) => {
                             if (error !== undefined && error !== null) {
                                 loggError(error);
                             } else {
-                                res.json({
+                                res.status(HttpCode.SUCCESSFUL.ACCEPTED).json({
                                     success: true,
                                     token: `Bearer ${token}`
                                 });
@@ -154,7 +155,7 @@ router.post("/login", (req, res) => {
 
                     } else {
                         errors.password = messages.EN.PASSWORD_INCORRECT_ERROR;
-                        res.status(400).json(errors);
+                        res.status(HttpCode.CLIENT_ERROR.BAD_REQUEST).json(errors);
                     }
                 })
                 .catch((error) => {
